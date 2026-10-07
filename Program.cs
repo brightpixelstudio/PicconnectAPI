@@ -1,8 +1,16 @@
+using Microsoft.EntityFrameworkCore;
+using PicconnectAPI.Data;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+// 1. Get the connection string
+var connectionString = builder.Configuration.GetConnectionString("AivenConnection");
+
+// 2. Register DbContext with Pomelo MySQL provider
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
