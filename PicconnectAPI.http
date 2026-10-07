@@ -1,0 +1,6 @@
+@PicconnectAPI_HostAddress = http://localhost:5149
+
+GET {{PicconnectAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
