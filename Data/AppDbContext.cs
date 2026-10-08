@@ -17,7 +17,13 @@
 
         // email
         public DbSet<SelectDeletedTotalEmails> SelectDeletedTotalEmails { get; set; }
-
+        public DbSet<SelectEmailCounts> SelectEmailCounts { get; set; }
+        public DbSet<SelectEmailHistory> SelectEmailHistory { get; set; }
+        public DbSet<SelectFlaggedEmails> SelectFlaggedEmails { get; set; }
+        public DbSet<SelectFlaggedTotalEmails> SelectFlaggedTotalEmails { get; set; }
+        public DbSet<SelectInboxEmails> SelectInboxEmails { get; set; }
+        public DbSet<SelectInboxTotalEmails> SelectInboxTotalEmails { get; set; }
+        
         // utilities
         public DbSet<SelectPlans> SelectPlans { get; set; }
         public DbSet<SelectCoordinates> SelectCoordinates { get; set; }
