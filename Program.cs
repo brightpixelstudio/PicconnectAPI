@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using PicconnectAPI.Data;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,9 +10,6 @@ var connectionString = builder.Configuration.GetConnectionString("AivenConnectio
 // 2. Register DbContext with Pomelo MySQL provider
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -32,24 +28,17 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddControllers(); 
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
-//// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+
+app.UseCors("AllowAngular"); // Place this before UseAuthorization
 
 app.UseAuthorization();
 
