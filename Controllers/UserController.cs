@@ -25,11 +25,6 @@ namespace PicconnectAPI.Controllers
             var affectedRows = await _context.Database.ExecuteSqlRawAsync(
                 "CALL delete_hotuser({0}, {1})", hotuserid, userId);
 
-            if (affectedRows == 0)
-            {
-                return NotFound(new { message = "User not found" });
-            }
-
             return Ok(new { message = "Hot User successfully deleted" });
         }
 
@@ -38,11 +33,6 @@ namespace PicconnectAPI.Controllers
         {
             var affectedRows = await _context.Database.ExecuteSqlRawAsync(
                 "CALL delete_user({0})", userId);
-
-            if (affectedRows == 0)
-            {
-                return NotFound(new { message = "User not found" });
-            }
 
             return Ok(new { message = "User successfully deleted" });
         }
