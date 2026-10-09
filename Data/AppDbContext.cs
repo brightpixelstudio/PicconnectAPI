@@ -2,15 +2,17 @@
 {
     using Microsoft.EntityFrameworkCore;
     using PicconnectAPI.Models;
-    using PicconnectAPI.Models.Utilities;
     using PicconnectAPI.Models.Email;
+    using PicconnectAPI.Models.User;
+    using PicconnectAPI.Models.Utilities;
 
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         // users
-        // public DbSet<SelectPlans> SelectPlans { get; set; }
+        /public DbSet<SelectHotCount> SelectHotCount { get; set; }
+        
 
         // statistics
         // public DbSet<GetMostPopularCatagories> GetMostPopularCatagories { get; set; }

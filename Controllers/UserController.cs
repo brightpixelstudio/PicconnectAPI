@@ -37,5 +37,51 @@ namespace PicconnectAPI.Controllers
             return Ok(new { message = "User successfully deleted" });
         }
 
+        [HttpDelete(Name = "DeleteUserMatchset")]
+        public async Task<ActionResult> DeleteUserMatchset(string usermatchprofileguid)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_usermatchset({0})", usermatchprofileguid);
+
+            return Ok(new { message = "User Matchset successfully deleted" });
+        }
+
+        [HttpDelete(Name = "DeleteUserSettings")]
+        public async Task<ActionResult> DeleteUserSettings(string userid)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_usersettings({0})", userid);
+
+            return Ok(new { message = "User Setting successfully deleted" });
+        }
+
+        [HttpDelete(Name = "DeleteUserViewedProfile")]
+        public async Task<ActionResult> DeleteUserViewedProfile(int daysIn)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_userviewedprofile({0})", daysIn);
+
+            return Ok(new { message = "User Viewed Profile was successfully deleted" });
+        }
+
+        [HttpGet(Name = "SelectHotCount")]
+        public async Task<ActionResult<IEnumerable<SelectHotCount>>> SelectHotCount(int userid, int type)
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@useridIn", userid);
+            var typeIn = new MySqlParameter("@typeIn", type);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectHotCount
+                .FromSqlRaw("CALL select_hotcount({0}, {1})", useridIn, typeIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
     }
 }
