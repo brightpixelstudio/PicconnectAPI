@@ -101,5 +101,32 @@ namespace PicconnectAPI.Controllers
             // return results
             return Ok(getrecords);
         }
+
+        [HttpGet(Name = "SelectMatchUserList")]
+        public async Task<ActionResult<IEnumerable<SelectMatchUserList>>> SelectMatchUserList(int userid, string usermatchprofileguid, int photocount, float lat, 
+            float lng, int listtypeid, int excludeblocks, int maxrecords, int sex )
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@p_userid", userid);
+            var usermatchprofileguidIn = new MySqlParameter("@p_usermatchprofileguid", usermatchprofileguid);
+            var photocountIn = new MySqlParameter("@p_photocount", photocount);
+            var latIn = new MySqlParameter("@p_lat", lat);
+            var lngIn = new MySqlParameter("@p_lng", lng);
+            var listtypeidIn = new MySqlParameter("@p_listtypeid", listtypeid);
+            var excludeblocksIn = new MySqlParameter("@p_excludeblocks", excludeblocks);
+            var maxrecordsIn = new MySqlParameter("@p_maxrecords", maxrecords);
+            var sexIn = new MySqlParameter("@p_sex", sex);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectMatchUserList
+                .FromSqlRaw("CALL select_matchuserlist({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, )", useridIn, usermatchprofileguidIn, photocountIn, latIn, lngIn, listtypeidIn, excludeblocksIn, maxrecordsIn, sexIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
     }
 }

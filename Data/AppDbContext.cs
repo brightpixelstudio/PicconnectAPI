@@ -13,7 +13,8 @@
         // users
         public DbSet<SelectHotCount> SelectHotCount { get; set; }
         public DbSet<SelectMatchSetUsers> SelectMatchSetUsers { get; set; }
-        
+        public DbSet<SelectMatchUserList> SelectMatchUserList { get; set; }        
+
         // email
         public DbSet<SelectDeletedTotalEmails> SelectDeletedTotalEmails { get; set; }
         public DbSet<SelectEmailCounts> SelectEmailCounts { get; set; }
