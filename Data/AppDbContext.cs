@@ -13,7 +13,10 @@
         // users
         public DbSet<SelectHotCount> SelectHotCount { get; set; }
         public DbSet<SelectMatchSetUsers> SelectMatchSetUsers { get; set; }
-        public DbSet<SelectMatchUserList> SelectMatchUserList { get; set; }        
+        public DbSet<SelectMatchUserList> SelectMatchUserList { get; set; }
+        public DbSet<SelectPhotosInCommon> SelectPhotosInCommon { get; set; }
+        public DbSet<SelectPhotosNotInCommon> SelectPhotosNotInCommon { get; set; }
+        
 
         // email
         public DbSet<SelectDeletedTotalEmails> SelectDeletedTotalEmails { get; set; }

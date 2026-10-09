@@ -119,7 +119,45 @@ namespace PicconnectAPI.Controllers
 
             // MySQL utilizes the 'CALL' syntax
             var getrecords = await _context.SelectMatchUserList
-                .FromSqlRaw("CALL select_matchuserlist({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, )", useridIn, usermatchprofileguidIn, photocountIn, latIn, lngIn, listtypeidIn, excludeblocksIn, maxrecordsIn, sexIn)
+                .FromSqlRaw("CALL select_matchuserlist({0}, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8} )", useridIn, usermatchprofileguidIn, photocountIn, latIn, lngIn, listtypeidIn, excludeblocksIn, maxrecordsIn, sexIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
+        [HttpGet(Name = "SelectPhotosInCommon")]
+        public async Task<ActionResult<IEnumerable<SelectPhotosInCommon>>> SelectPhotosInCommon(int myusermatchprofileguid, string theirusermatchprofileguid)
+        {
+            // Define the parameter to prevent SQL Injection
+            var myusermatchprofileguidIn = new MySqlParameter("@myusermatchprofileguidIn", myusermatchprofileguid);
+            var theirusermatchprofileguidIn = new MySqlParameter("@theirusermatchprofileguidIn", theirusermatchprofileguid);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectPhotosInCommon
+                .FromSqlRaw("CALL select_photos_in_common({0}, {1})", myusermatchprofileguidIn, theirusermatchprofileguid)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
+        [HttpGet(Name = "SelectPhotosNotInCommon")]
+        public async Task<ActionResult<IEnumerable<SelectPhotosNotInCommon>>> SelectPhotosNotInCommon(int myusermatchprofileguid, string theirusermatchprofileguid)
+        {
+            // Define the parameter to prevent SQL Injection
+            var myusermatchprofileguidIn = new MySqlParameter("@myusermatchprofileguidIn", myusermatchprofileguid);
+            var theirusermatchprofileguidIn = new MySqlParameter("@theirusermatchprofileguidIn", theirusermatchprofileguid);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectPhotosNotInCommon
+                .FromSqlRaw("CALL select_photos_not_in_common({0}, {1})", myusermatchprofileguidIn, theirusermatchprofileguid)
                 .ToListAsync();
 
             if (getrecords.Count == 0)
