@@ -83,5 +83,23 @@ namespace PicconnectAPI.Controllers
             return Ok(getrecords);
         }
 
+        [HttpGet(Name = "SelectMatchSetUsers")]
+        public async Task<ActionResult<IEnumerable<SelectMatchSetUsers>>> SelectMatchSetUsers(int matchsetprofileguid, int maxrecords)
+        {
+            // Define the parameter to prevent SQL Injection
+            var matchsetprofileguidIn = new MySqlParameter("@matchsetprofileguidIn", matchsetprofileguid);
+            var maxrecordsIn = new MySqlParameter("@maxrecordsIn", maxrecords);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectMatchSetUsers
+                .FromSqlRaw("CALL select_matchsetusers({0}, {1})", matchsetprofileguidIn, maxrecordsIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
     }
 }
