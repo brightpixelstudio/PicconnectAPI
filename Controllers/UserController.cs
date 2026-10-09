@@ -22,19 +22,30 @@ namespace PicconnectAPI.Controllers
         [HttpDelete(Name = "DeleteHotUser")]
         public async Task<ActionResult> DeleteHotUser(int hotuserid, int userId)
         {
-            // Define the parameter to prevent SQL Injection
-            var hotuserIn = new MySqlParameter("@hotuserIn", hotuserid);
-            var userIdIn = new MySqlParameter("@useridIn", userId);
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_hotuser({0}, {1})", hotuserid, userId);
 
-            // add the record
-            var affectedRows = _context.Database.ExecuteSqlRaw(
-                "CALL delete_hotuser({0}, {1})", hotuserIn, userIdIn);
+            if (affectedRows == 0)
+            {
+                return NotFound(new { message = "User not found" });
+            }
 
             return Ok(new { message = "Hot User successfully deleted" });
         }
 
+        [HttpDelete(Name = "DeleteUser")]
+        public async Task<ActionResult> DeleteUser(int userId)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_user({0})", userId);
 
+            if (affectedRows == 0)
+            {
+                return NotFound(new { message = "User not found" });
+            }
 
+            return Ok(new { message = "User successfully deleted" });
+        }
 
     }
 }
