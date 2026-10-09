@@ -22,8 +22,12 @@
         public DbSet<SelectFlaggedEmails> SelectFlaggedEmails { get; set; }
         public DbSet<SelectFlaggedTotalEmails> SelectFlaggedTotalEmails { get; set; }
         public DbSet<SelectInboxEmails> SelectInboxEmails { get; set; }
+        public DbSet<SelectSentEmails> SelectSentEmails { get; set; }        
         public DbSet<SelectInboxTotalEmails> SelectInboxTotalEmails { get; set; }
+        public DbSet<SelectReplyEmailDetails> SelectReplyEmailDetails { get; set; }
+        public DbSet<SelectSentTotalEmails> SelectSentTotalEmails { get; set; }
         
+
         // utilities
         public DbSet<SelectPlans> SelectPlans { get; set; }
         public DbSet<SelectCoordinates> SelectCoordinates { get; set; }

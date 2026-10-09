@@ -166,5 +166,43 @@ namespace PicconnectAPI.Controllers
             // return results
             return Ok(getrecords);
         }
+
+        [HttpGet(Name = "SelectSentEmails")]
+        public async Task<ActionResult<IEnumerable<SelectSentEmails>>> SelectSentEmails(int userid, int orderfield, int top)
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@useridIn", userid);
+            var orderfieldIn = new MySqlParameter("@orderfieldIn", orderfield);
+            var topIn = new MySqlParameter("@topIn", top);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectSentEmails
+                .FromSqlRaw("CALL select_sentemails({0}, {1}, {2})", useridIn, orderfieldIn, topIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
+        [HttpGet(Name = "SelectSentTotalEmails")]
+        public async Task<ActionResult<IEnumerable<SelectSentTotalEmails>>> SelectSentTotalEmails(int userid)
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@useridIn", userid);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectSentTotalEmails
+                .FromSqlRaw("CALL select_senttotalemails({0})", useridIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
     }
 }
