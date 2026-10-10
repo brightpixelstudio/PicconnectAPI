@@ -16,6 +16,8 @@
         public DbSet<SelectMatchUserList> SelectMatchUserList { get; set; }
         public DbSet<SelectPhotosInCommon> SelectPhotosInCommon { get; set; }
         public DbSet<SelectPhotosNotInCommon> SelectPhotosNotInCommon { get; set; }
+        public DbSet<SelectSubscriptionInfo> SelectSubscriptionInfo { get; set; }
+        public DbSet<SelectUser> SelectUser { get; set; }
         
 
         // email

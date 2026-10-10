@@ -149,7 +149,7 @@ namespace PicconnectAPI.Controllers
         }
 
         [HttpGet(Name = "SelectPhotosNotInCommon")]
-        public async Task<ActionResult<IEnumerable<SelectPhotosNotInCommon>>> SelectPhotosNotInCommon(int myusermatchprofileguid, string theirusermatchprofileguid)
+        public async Task<ActionResult<IEnumerable<SelectPhotosNotInCommon>>> SelectPhotosNotInCommon(string myusermatchprofileguid, string theirusermatchprofileguid)
         {
             // Define the parameter to prevent SQL Injection
             var myusermatchprofileguidIn = new MySqlParameter("@myusermatchprofileguidIn", myusermatchprofileguid);
@@ -166,5 +166,43 @@ namespace PicconnectAPI.Controllers
             // return results
             return Ok(getrecords);
         }
+
+        [HttpGet(Name = "SelectSubscriptionInfo")]
+        public async Task<ActionResult<IEnumerable<SelectSubscriptionInfo>>> SelectSubscriptionInfo(int userid)
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@useridIn", userid);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectSubscriptionInfo
+                .FromSqlRaw("CALL select_subscriptioninfo({0})", useridIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
+        [HttpGet(Name = "SelectUser")]
+        public async Task<ActionResult<IEnumerable<SelectUser>>> SelectUser(string email, string password)
+        {
+            // Define the parameter to prevent SQL Injection
+            var emailIn = new MySqlParameter("@emailIn", password);
+            var passwordIn = new MySqlParameter("@passwordIn", password);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectUser
+                .FromSqlRaw("CALL select_user({0}, {1})", emailIn, passwordIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
     }
 }
