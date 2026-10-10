@@ -204,5 +204,22 @@ namespace PicconnectAPI.Controllers
             return Ok(getrecords);
         }
 
+        [HttpGet(Name = "SelectUsermatchSets")]
+        public async Task<ActionResult<IEnumerable<SelectUsermatchSets>>> SelectUsermatchSets(int userid)
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@useridIn", userid);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectUsermatchSets
+                .FromSqlRaw("CALL select_usermatchsets({0})", useridIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
     }
 }
