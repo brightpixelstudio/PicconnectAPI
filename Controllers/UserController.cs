@@ -296,5 +296,13 @@ namespace PicconnectAPI.Controllers
             return Ok(getrecords);
         }
 
+        [HttpDelete(Name = "UpdateDefaultUserMatchset")]
+        public async Task<ActionResult> UpdateDefaultUserMatchset(int useridIn, string guidIn)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL update_defaultusermatchset({0}, {1})", useridIn, guidIn);
+
+            return Ok(new { message = "User Default Matchset successfully updated" });
+        }
     }
 }
