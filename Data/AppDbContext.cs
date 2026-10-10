@@ -19,6 +19,10 @@
         public DbSet<SelectSubscriptionInfo> SelectSubscriptionInfo { get; set; }
         public DbSet<SelectUser> SelectUser { get; set; }
         public DbSet<SelectUsermatchSets> SelectUsermatchSets { get; set; }
+        public DbSet<SelectUserProfile> SelectUserProfile { get; set; }
+        public DbSet<SelectUserSettings> SelectUserSettings { get; set; }
+        public DbSet<SelectUsersViewed> SelectUsersViewed { get; set; }
+        public DbSet<SelectViewedMeListCounts> SelectViewedMeListCounts { get; set; }
         
 
         // email

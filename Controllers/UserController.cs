@@ -221,5 +221,80 @@ namespace PicconnectAPI.Controllers
             // return results
             return Ok(getrecords);
         }
+
+        [HttpGet(Name = "SelectUserProfile")]
+        public async Task<ActionResult<IEnumerable<SelectUserProfile>>> SelectUserProfile(string userguid, int userid)
+        {
+            // Define the parameter to prevent SQL Injection
+            var userguidIn = new MySqlParameter("@userguidIn", userguid);
+            var useridIn = new MySqlParameter("@useridIn", userid);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectUserProfile
+                .FromSqlRaw("CALL select_userprofile({0}, {1})", userguidIn, useridIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
+        [HttpGet(Name = "SelectUserSettings")]
+        public async Task<ActionResult<IEnumerable<SelectUserSettings>>> SelectUserSettings(int userid)
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@useridIn", userid);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectUserSettings
+                .FromSqlRaw("CALL select_usersettings({0})", useridIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
+        [HttpGet(Name = "SelectUsersViewed")]
+        public async Task<ActionResult<IEnumerable<SelectUsersViewed>>> SelectUsersViewed(int userid, string userguid)
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@useridIn", userid);
+            var userguidIn = new MySqlParameter("@userguidIn", userguid);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectUsersViewed
+                .FromSqlRaw("CALL select_usersviewed({0}, {1})", useridIn, userguidIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
+        [HttpGet(Name = "SelectViewedMeListCounts")]
+        public async Task<ActionResult<IEnumerable<SelectViewedMeListCounts>>> SelectViewedMeListCounts(int userid)
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@useridIn", userid);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectViewedMeListCounts
+                .FromSqlRaw("CALL select_viewedmelistcounts({0})", useridIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
     }
 }
