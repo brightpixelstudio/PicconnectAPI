@@ -131,6 +131,7 @@ namespace PicconnectAPI.Controllers
             return Ok(getrecords);
         }
 
+        [HttpGet(Name = "SelectInboxTotalEmails")]
         public async Task<ActionResult<IEnumerable<SelectInboxTotalEmails>>> SelectInboxTotalEmails(int userid)
         {
             // Define the parameter to prevent SQL Injection

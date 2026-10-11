@@ -117,6 +117,23 @@ namespace PicconnectAPI.Controllers
             // return results
             return Ok(getrecords);
         }
-        
+
+        [HttpGet(Name = "SelectVerifyZipcode")]
+        public async Task<ActionResult<IEnumerable<SelectVerifyZipcode>>> SelectVerifyZipcode(string zipcode)
+        {
+            // Define the parameter to prevent SQL Injection
+            var zipcodeIn = new MySqlParameter("@zipcodeIn", zipcode);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectVerifyZipcode
+                .FromSqlRaw("CALL select_verifyzipcode({0})", zipcodeIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
     }
 }

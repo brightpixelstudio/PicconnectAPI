@@ -44,6 +44,8 @@
         public DbSet<SelectCategories> SelectCategories { get; set; }
         public DbSet<SelectMostPopularPhotos> SelectMostPopularPhotos { get; set; }
         public DbSet<SelectLatestNewestUsers> SelectLatestNewestUsers { get; set; }
+        public DbSet<SelectVerifyZipcode> SelectVerifyZipcode { get; set; }
+        
 
         // statistics
         // public DbSet<GetMostPopularCatagories> GetMostPopularCatagories { get; set; }
