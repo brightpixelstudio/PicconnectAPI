@@ -20,7 +20,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAngular", policy =>
     {
         policy.WithOrigins(
-            "https://happy-dune-0ad79e30f.3.azurestaticapps.net",
+            "https://www.picconnect.org",
             "http://localhost:4200"
         )
         .AllowAnyHeader()

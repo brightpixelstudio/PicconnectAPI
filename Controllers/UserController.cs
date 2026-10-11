@@ -305,7 +305,7 @@ namespace PicconnectAPI.Controllers
             return Ok(new { message = "User Default Matchset successfully updated" });
         }
 
-        [HttpPost(Name = "AddSignup")]
+        [HttpPost(Name = "addSignup")]
         public async Task<ActionResult> AddSignup([FromBody] FormSignup model)
         {
             if (!ModelState.IsValid)
