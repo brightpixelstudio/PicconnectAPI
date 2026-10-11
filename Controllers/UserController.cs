@@ -304,5 +304,27 @@ namespace PicconnectAPI.Controllers
 
             return Ok(new { message = "User Default Matchset successfully updated" });
         }
+
+        [HttpPost(Name = "AddSignup")]
+        public async Task<ActionResult> AddSignup([FromBody] FormSignup model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { message = "The form is not valid" });
+            }
+            else
+            {
+                // Define the parameter to prevent SQL Injection                
+                var emailIn = new MySqlParameter("@emailIn", model.email);
+
+                // add the record
+                var affectedRows = _context.Database.ExecuteSqlRaw(
+                    "CALL insert_usersignup({0})", emailIn);
+
+                return Ok(new { message = "User successfully inserted" });
+            }
+        }
+
+
     }
 }
