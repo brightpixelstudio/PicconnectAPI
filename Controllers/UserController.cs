@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using PicconnectAPI.Data;
 using PicconnectAPI.Models.User;
+using System;
 
 namespace PicconnectAPI.Controllers
 {
@@ -242,6 +244,72 @@ namespace PicconnectAPI.Controllers
             // MySQL utilizes the 'CALL' syntax
             var getrecords = await _context.SelectViewedMeListCounts
                 .FromSqlRaw("CALL select_viewedmelistcounts({0})", useridIn)
+                .ToListAsync();
+
+            if (getrecords.Count == 0)
+                return NotFound();
+
+            // return results
+            return Ok(getrecords);
+        }
+
+        [HttpGet(Name = "SelectSearchUsers")]
+        public async Task<ActionResult<IEnumerable<SelectSearchUsers>>> SelectSearchUsers(
+            int userid,
+            int topage,
+            int bottomage,
+            int sex,
+            float lat,
+            float lng,
+            int distance,
+            int salaryid,
+            int religionid,
+            int children,
+            int feet,
+            int inches,
+            int bottompercentage,
+            int maxrecords,
+            sbyte extended,
+            string photoguidarray
+        )
+        {
+            // Define the parameter to prevent SQL Injection
+            var useridIn = new MySqlParameter("@p_userid", userid);
+            var topageIn = new MySqlParameter("@p_topage", topage);
+            var bottomageIn = new MySqlParameter("@p_bottomage", topage);
+            var sexIn = new MySqlParameter("@p_sex", sex);
+            var latIn = new MySqlParameter("@p_lat", lat);
+            var lngIn = new MySqlParameter("@p_lng", lng);
+            var distanceIn = new MySqlParameter("@p_distance", distance);
+            var salaryidIn = new MySqlParameter("@p_salaryid", salaryid);
+            var religionidIn = new MySqlParameter("@p_religionid", religionid);
+            var childrenIn = new MySqlParameter("@p_children", children);
+            var feetIn = new MySqlParameter("@p_feet", feet);
+            var inchesIn = new MySqlParameter("@p_inches", inches);
+            var bottompercentageIn = new MySqlParameter("@p_bottompercentage", bottompercentage);
+            var maxrecordsIn = new MySqlParameter("@p_maxrecords", maxrecords);
+            var extendedIn = new MySqlParameter("@p_extended", extended);
+            var photoguidarrayIn = new MySqlParameter("@p_photoguidarray", photoguidarray);
+
+            // MySQL utilizes the 'CALL' syntax
+            var getrecords = await _context.SelectSearchUsers
+                .FromSqlRaw("CALL select_searchusers({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11},{12},{13},{14},{15})", 
+                    useridIn,
+                    topageIn,
+                    bottomageIn,
+                    sexIn,
+                    latIn,
+                    lngIn,
+                    distanceIn,
+                    salaryidIn,
+                    religionidIn,
+                    childrenIn,
+                    feetIn,
+                    inchesIn,
+                    bottompercentageIn,
+                    maxrecordsIn,
+                    extendedIn,
+                    photoguidarrayIn)
                 .ToListAsync();
 
             if (getrecords.Count == 0)

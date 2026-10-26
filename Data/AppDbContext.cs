@@ -23,6 +23,7 @@
         public DbSet<SelectUserSettings> SelectUserSettings { get; set; }
         public DbSet<SelectUsersViewed> SelectUsersViewed { get; set; }
         public DbSet<SelectViewedMeListCounts> SelectViewedMeListCounts { get; set; }
+        public DbSet<SelectSearchUsers> SelectSearchUsers { get; set; }
         
 
         // email
