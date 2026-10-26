@@ -46,9 +46,7 @@
         public DbSet<SelectLatestNewestUsers> SelectLatestNewestUsers { get; set; }
         public DbSet<SelectVerifyZipcode> SelectVerifyZipcode { get; set; }
         
-
         // statistics
-        // public DbSet<GetMostPopularCatagories> GetMostPopularCatagories { get; set; }
 
     }
 }

@@ -19,51 +19,6 @@ namespace PicconnectAPI.Controllers
             _context = context;
         }
 
-        [HttpDelete(Name = "DeleteHotUser")]
-        public async Task<ActionResult> DeleteHotUser(int hotuserid, int userId)
-        {
-            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
-                "CALL delete_hotuser({0}, {1})", hotuserid, userId);
-
-            return Ok(new { message = "Hot User successfully deleted" });
-        }
-
-        [HttpDelete(Name = "DeleteUser")]
-        public async Task<ActionResult> DeleteUser(int userId)
-        {
-            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
-                "CALL delete_user({0})", userId);
-
-            return Ok(new { message = "User successfully deleted" });
-        }
-
-        [HttpDelete(Name = "DeleteUserMatchset")]
-        public async Task<ActionResult> DeleteUserMatchset(string usermatchprofileguid)
-        {
-            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
-                "CALL delete_usermatchset({0})", usermatchprofileguid);
-
-            return Ok(new { message = "User Matchset successfully deleted" });
-        }
-
-        [HttpDelete(Name = "DeleteUserSettings")]
-        public async Task<ActionResult> DeleteUserSettings(string userid)
-        {
-            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
-                "CALL delete_usersettings({0})", userid);
-
-            return Ok(new { message = "User Setting successfully deleted" });
-        }
-
-        [HttpDelete(Name = "DeleteUserViewedProfile")]
-        public async Task<ActionResult> DeleteUserViewedProfile(int daysIn)
-        {
-            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
-                "CALL delete_userviewedprofile({0})", daysIn);
-
-            return Ok(new { message = "User Viewed Profile was successfully deleted" });
-        }
-
         [HttpGet(Name = "SelectHotCount")]
         public async Task<ActionResult<IEnumerable<SelectHotCount>>> SelectHotCount(int userid, int type)
         {
@@ -296,6 +251,54 @@ namespace PicconnectAPI.Controllers
             return Ok(getrecords);
         }
 
+        /**************************************************************/
+        /* Deletes, updates and inserts */
+        /**************************************************************/
+        [HttpDelete(Name = "DeleteHotUser")]
+        public async Task<ActionResult> DeleteHotUser(int hotuserid, int userId)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_hotuser({0}, {1})", hotuserid, userId);
+
+            return Ok(new { message = "Hot User successfully deleted" });
+        }
+
+        [HttpDelete(Name = "DeleteUser")]
+        public async Task<ActionResult> DeleteUser(int userId)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_user({0})", userId);
+
+            return Ok(new { message = "User successfully deleted" });
+        }
+
+        [HttpDelete(Name = "DeleteUserMatchset")]
+        public async Task<ActionResult> DeleteUserMatchset(string usermatchprofileguid)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_usermatchset({0})", usermatchprofileguid);
+
+            return Ok(new { message = "User Matchset successfully deleted" });
+        }
+
+        [HttpDelete(Name = "DeleteUserSettings")]
+        public async Task<ActionResult> DeleteUserSettings(string userid)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_usersettings({0})", userid);
+
+            return Ok(new { message = "User Setting successfully deleted" });
+        }
+
+        [HttpDelete(Name = "DeleteUserViewedProfile")]
+        public async Task<ActionResult> DeleteUserViewedProfile(int daysIn)
+        {
+            var affectedRows = await _context.Database.ExecuteSqlRawAsync(
+                "CALL delete_userviewedprofile({0})", daysIn);
+
+            return Ok(new { message = "User Viewed Profile was successfully deleted" });
+        }
+
         [HttpDelete(Name = "UpdateDefaultUserMatchset")]
         public async Task<ActionResult> UpdateDefaultUserMatchset(int useridIn, string guidIn)
         {
@@ -305,8 +308,8 @@ namespace PicconnectAPI.Controllers
             return Ok(new { message = "User Default Matchset successfully updated" });
         }
 
-        [HttpPost(Name = "addSignup")]
-        public async Task<ActionResult> AddSignup([FromBody] FormSignup model)
+        [HttpPost(Name = "InsertSignup")]
+        public async Task<ActionResult> InsertSignup([FromBody] FormSignup model)
         {
             if (!ModelState.IsValid)
             {
@@ -318,7 +321,7 @@ namespace PicconnectAPI.Controllers
                 var emailIn = new MySqlParameter("@emailIn", model.email);
 
                 // add the record
-                var affectedRows = _context.Database.ExecuteSqlRaw(
+                var affectedRows = await _context.Database.ExecuteSqlRawAsync(
                     "CALL insert_usersignup({0})", emailIn);
 
                 return Ok(new { message = "User successfully inserted" });
